@@ -2,6 +2,7 @@ package taojava.util;
 
 import java.io.PrintWriter;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -44,6 +45,8 @@ public class BSTExpt {
         expt("a", "aardvark");
         expt("g", "gibbon");
         expt("h", "hippo");
+        // expt("a", "ant");
+        // expt("z", "chinchilla");
     } // main(String[])
 
     // +-----------+-------------------------------------------------------
@@ -56,17 +59,31 @@ public class BSTExpt {
     public static void expt(String key, String value) {
         pen.println("dict[" + key + "] = " + value);
         dict.set(key,value);
+        // iterateKeys();
+        // iterateValues();
         dict.dump(pen);
         pen.println();
     } // expt(BST, PrintWriter, String, String)
 
     /**
-     * Iterate the dictionary.
+     * Iterate the keys of the dictionary.
      */
-    public static void iterate() {
+    public static void iterateKeys() {
+        pen.print("Keys:   ");
         for (String key : dict.keys()) {
             pen.print(key + " ");
         } // for each key
         pen.println();
-    } // iterate()
+    } // iterateKeys()
+
+    /**
+     * Iterate the values of the dictionary.
+     */
+    public static void iterateValues() {
+        pen.print("Values: ");
+        for (String value : dict) {
+            pen.print(value + " ");
+        } // for each value
+        pen.println();
+    } // iterateValues
 } // BSTExpt

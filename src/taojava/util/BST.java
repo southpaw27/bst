@@ -96,7 +96,15 @@ public class BST<K,V> implements Dictionary<K,V> {
     // | Iterators |
     // +-----------+
 
-    public Iterator<K> keys() {
+    public Iterable<K> keys() {
+        return new Iterable<K>() {
+            public Iterator<K> iterator() {
+                return BST.this.keysIterator();
+            } // iterator()
+        }; // new Iterable<K>
+    } // keys
+
+    public Iterator<K> keysIterator() {
         return new Iterator<K>() {
             Iterator<BSTNode> it = new BSTNodeIterator(BST.this.root);
 
@@ -113,9 +121,9 @@ public class BST<K,V> implements Dictionary<K,V> {
                 it.remove();
             } // remove
         }; // new Iterator<K>
-    } // keys()
+    } // keysIterator()
 
-    public Iterator<V> values() {
+    public Iterator<V> iterator() {
         return new Iterator<V>() {
             Iterator<BSTNode> it = new BSTNodeIterator(BST.this.root);
 
@@ -132,10 +140,6 @@ public class BST<K,V> implements Dictionary<K,V> {
                 it.remove();
             } // remove
         }; // new Iterator<V>
-    } // values()
-
-    public Iterator<V> iterator() {
-        return this.values();
     } // iterator()
 
     // +-----------------+-------------------------------------------------
@@ -155,8 +159,8 @@ public class BST<K,V> implements Dictionary<K,V> {
         } else {
             // Normal case: Print the key/value pair and the subtrees
             pen.println(indent + "[" + tree.key + ":" + tree.value + "]");
-            dump(pen, tree.smaller, indent + "  ");
-            dump(pen, tree.larger, indent + "  ");
+            dump(pen, tree.smaller, indent + "    ");
+            dump(pen, tree.larger, indent + "    ");
         } // if it's a real node
     } // dump(PrintWriter, BSTNode, String)
 
@@ -175,6 +179,7 @@ public class BST<K,V> implements Dictionary<K,V> {
             int tmp = order.compare(key, tree.key);
             if (tmp == 0) {
                 tree.value = value;
+                return tree;
             } else if (tmp < 0) {
                 tree.smaller = insert(tree.smaller, key, value);
                 return tree;
@@ -183,10 +188,6 @@ public class BST<K,V> implements Dictionary<K,V> {
                 return tree;
             } // if the key volues the key at the node
         } // if the tree is nonempty
-        // The following line is to make the compiler happy.  That is, although we've
-        // guaranteed that the code returns a value, it appears that the compiler cannot
-        // tell that.
-        return null;
     } // insert(BSTNode, K, V)
 
     // +---------------+---------------------------------------------------

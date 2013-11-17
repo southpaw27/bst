@@ -58,17 +58,23 @@ public interface Dictionary<K,V> extends Iterable<V> {
     // +-----------+
 
     /**
-     * Get an iterator for the keys in the dictionary.  The keys are
-     * iterated in no particular order.
-     */
-    public Iterator<K> keys();
-
-    /**
-     * Get an iterator for the values in the dictionary.  The values are
+     * Get an iterable for the values in the dictionary.  The values are
      * iterated in no particular order.  If a value appears more than once
      * in the dictionary (i.e., if it is associated with more than one key),
      * it appears more than once in the iteration.
      */
-    public Iterator<V> values();
+    public Iterator<V> iterator();
+
+    /**
+     * Get an iterable for the keys in the dictionary.  The keys are
+     * iterated in no particular order.  (We want an iterable so that
+     * we can use it with Java's for-each form.)
+     */
+    public Iterable<K> keys();
+
+    /**
+     * Get an iterator for the keys in the dictionary.
+     */
+    public Iterator<K> keysIterator();
 
 } // Dictionary<K,V>
