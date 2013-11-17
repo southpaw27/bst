@@ -4,9 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.Comparator;
+
 public class BSTTest {
 
-	BST<String,String> dict = new BST<String,String>();
+	BST<String,String> dict = new BST<String,String>(new Comparator<String>() {
+	    public int compare(String left, String right) {
+		return left.compareTo(right);
+	    } // compare
+	});
 	
 	/** 
 	 * See if we can add a few elements and get them again.
