@@ -38,6 +38,7 @@ public class BSTExpt {
                    } // compare(String, String)
                 });
         dict.dump(pen);
+        pen.println();
         expt("e", "elephant");
         expt("c", "chinchilla");
         expt("b", "baboon");
