@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class LinkedDictionaryTest {
+public class BSTTest {
 
-	LinkedDictionary<String,String> dict = new LinkedDictionary<String,String>();
+	BST<String,String> dict = new BST<String,String>();
 	
 	/** 
 	 * See if we can add a few elements and get them again.
@@ -60,4 +60,4 @@ public class LinkedDictionaryTest {
 		assertEquals(dict.get("c"), "clean");
 		assertEquals(dict.containsKey("b"), true);
 	} // testRemove
-} // LinkedDictionaryTest
+} // BSTTest
