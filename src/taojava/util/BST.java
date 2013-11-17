@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 /**
@@ -32,7 +33,7 @@ public class BST<K,V> implements Dictionary<K,V> {
     /**
      * The root of the tree.
      */
-    BSTNode<K,V> root;
+    BSTNode root;
 
     /**
      * The comparator used to give the ordering.
@@ -82,6 +83,7 @@ public class BST<K,V> implements Dictionary<K,V> {
 
     public V remove(K key) throws Exception {
         // STUB
+	return null;
     } // remove(K)
 
     public void clear() {
@@ -96,7 +98,7 @@ public class BST<K,V> implements Dictionary<K,V> {
 
     public Iterator<K> keys() {
         return new Iterator<K>() {
-            Iterator<Node<K,V>> it = new BSTNodeIterator(BST.this.root);
+            Iterator<BSTNode> it = new BSTNodeIterator(BST.this.root);
 
             public K next() throws NoSuchElementException {
                 return it.next().key;
@@ -115,7 +117,7 @@ public class BST<K,V> implements Dictionary<K,V> {
 
     public Iterator<V> values() {
         return new Iterator<V>() {
-            Iterator<Node<K,V>> it = new BSTNodeIterator(BST.this.root);
+            Iterator<BSTNode> it = new BSTNodeIterator(BST.this.root);
 
             public V next() throws NoSuchElementException {
                 return it.next().value;
@@ -144,7 +146,7 @@ public class BST<K,V> implements Dictionary<K,V> {
      * Print a simple representation of a BST using pen, indenting
      * the BST the specified amount.
      */
-    static <K,V> void dump(PrintWriter pen, BSTNode<K,V> tree, 
+    void dump(PrintWriter pen, BSTNode tree, 
             String indent) {
         if (tree == null) {
             // Special case: For the empty tree, we just print a special
@@ -156,7 +158,7 @@ public class BST<K,V> implements Dictionary<K,V> {
             dump(pen, tree.smaller, indent + "  ");
             dump(pen, tree.larger, indent + "  ");
         } // if it's a real node
-    } // dump(PrintWriter, BSTNode<K,V>, String)
+    } // dump(PrintWriter, BSTNode, String)
 
     /**
      * Insert a key/value pair in the tree.
@@ -164,10 +166,10 @@ public class BST<K,V> implements Dictionary<K,V> {
      * @return newtree, the updated tree
      *   
      */
-    BSTNode<K,V> insert(BSTNode<K,V> tree, K key, V value) {
+    BSTNode insert(BSTNode tree, K key, V value) {
         // Special case: Empty tree.  Build a new node.
         if (tree == null) {
-            return new BSTNode<K,V>(key, value);
+            return new BSTNode(key, value);
         } // if (tree == null)
         else {
             int tmp = order.compare(key, tree.key);
@@ -181,16 +183,11 @@ public class BST<K,V> implements Dictionary<K,V> {
                 return tree;
             } // if the key volues the key at the node
         } // if the tree is nonempty
-    } // insert(BSTNode<K,V>, K, V)
-
-    /**
-     * An iterator for all of the nodes in the BST.
-     */
-    Iterator<BSTNode<K,V>> nodeIterator() {
-        return new Iterator<BSTNode<K,V>>() {
-        }; // new Iterator<V>
-        }; // new Iterator
-    } // nodeIterator
+        // The following line is to make the compiler happy.  That is, although we've
+        // guaranteed that the code returns a value, it appears that the compiler cannot
+        // tell that.
+        return null;
+    } // insert(BSTNode, K, V)
 
     // +---------------+---------------------------------------------------
     // | Inner Classes |
@@ -199,7 +196,7 @@ public class BST<K,V> implements Dictionary<K,V> {
     /**
      * Nodes in a linked dictionary.
      */
-    class BSTNode<K,V> {
+    class BSTNode {
         // +--------+----------------------------------------------------------
         // | Fields |
         // +--------+
@@ -217,12 +214,12 @@ public class BST<K,V> implements Dictionary<K,V> {
         /**
          * The left subtree, which should contain the smaller values.
          */
-        BSTNode<K,V> smaller;
+        BSTNode smaller;
     
         /**
          * The right subtree, which should contain the larger values.
          */
-        BSTNode<K,V> larger;
+        BSTNode larger;
     
         // +--------------+----------------------------------------------------
         // | Constructors |
@@ -238,12 +235,12 @@ public class BST<K,V> implements Dictionary<K,V> {
             this.smaller = null;
             this.larger = null;
         } // BSTNode(K,V)
-    } // BSTNode<K,V>    
+    } // BSTNode  
 
     /**
      * An iterator for BSTNodes.
      */
-    class BSTNodeIterator<K,V> implements Iterator<Node<K,V>> {
+    class BSTNodeIterator implements Iterator<BSTNode> {
         // +--------+----------------------------------------------------------
         // | Fields |
         // +--------+
@@ -251,24 +248,24 @@ public class BST<K,V> implements Dictionary<K,V> {
         /**
          * The nodes in the tree that we have left to process.
          */
-        Stack<BSTNode<K,V>> remaining;
+        Stack<BSTNode> remaining;
 
         // +--------------+----------------------------------------------------
         // | Constructors |
         // +--------------+
 
-        public BSTNodeIterator(BSTNode<K,V> root) {
-           remaining = new Stack<BSTNode<K,V>>();
+        public BSTNodeIterator(BSTNode root) {
+           remaining = new Stack<BSTNode>();
            if (root != null) {
                remaining.push(root);
            } // if (root != null)
-        } // BSTNodeIterator(BSTNode<K,V>)
+        } // BSTNodeIterator(BSTNode)
 
-        public BSTNode<K,V> next() throws NoSuchElementException {
+        public BSTNode next() throws NoSuchElementException {
             if (!this.hasNext()) {
                 throw new NoSuchElementException();
             } // if there are no more elements
-            BSTNode<K,V> temp = this.remaining.pop();
+            BSTNode temp = this.remaining.pop();
             if (temp.larger != null) {
                 this.remaining.push(temp.larger);
             } // if there's a larger subtree

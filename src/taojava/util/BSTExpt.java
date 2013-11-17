@@ -18,7 +18,7 @@ public class BSTExpt {
     /**
      * Output for our program.
      */
-    static PrintWriter pen
+    static PrintWriter pen;
 
     /**
      * The current dictionary.
@@ -36,7 +36,7 @@ public class BSTExpt {
                        return left.compareTo(right);
                    } // compare(String, String)
                 });
-        dict.dump();
+        dict.dump(pen);
         expt("e", "elephant");
         expt("c", "chinchilla");
         expt("b", "baboon");
